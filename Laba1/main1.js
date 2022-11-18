@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		loader.load("3.glb", (gltf) => {
 			gltf.scene.scale.set(0.025, 0.025, 0.025);
-			gltf.scene.position.set(0, 0, 0);
+			gltf.scene.position.set(0, 0, -0.4);
 			anchor.group.add(gltf.scene);
 		});
 
