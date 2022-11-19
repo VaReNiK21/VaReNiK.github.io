@@ -1,32 +1,36 @@
-import * as THREE from "https://unpkg.com/three/build/three.module.js";
+import {GLTFLoader} from "./GLTFLoader.js";
+
+const THREE = window.MINDAR.IMAGE.THREE;
+
 document.addEventListener("DOMContentLoaded", () => {
-const scene = new THREE.Scene();
+	const start = async() => {
 
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({color: "#0000FF"});
-const cube = new THREE.Mesh(geometry, material);
-cube.position.set(0, 0, -2);
-cube.rotation.set(0, Math.PI/4, 0);
-scene.add(cube);
+		const AR = new window.MINDAR.IMAGE.MindARThree({
+			container: document.body,
+			imageTargetSrc: "targets.mind"
+		});
 
-const camera = new THREE.PerspectiveCamera();
-camera.position.set(1, 1, 5);
+		const {renderer, scene, camera} = AR;
 
-const renderer = new THREE.WebGLRenderer({alpha: true});
-renderer.setSize(500, 500);
-renderer.render(scene, camera);
+		const anchor = AR.addAnchor(0);
 
-document.body.appendChild(renderer.domElement);
-const video = document.createElement("video");
+		const light = new THREE.HemisphereLight( 0xffffff, 0xbbbbff, 1 );
+		scene.add( light );
 
-navigator.mediaDevices.getUserMedia({video:true})
-.then((stream) => {
-video.srcObject = stream;
-video.play();
-});
-video.style.position = "absolute";
-video.style.width = renderer.domElement.width;
-video.style.height = renderer.domElement.height;
-renderer.domElement.style.position = "absolute";
-document.body.appendChild(video);
+		const loader = new GLTFLoader();
+
+		loader.load("marker.glb", (gltf) => {
+			gltf.scene.scale.set(0.025, 0.025, 0.025);
+			gltf.scene.position.set(0, 0, -0.4);
+			anchor.group.add(gltf.scene);
+		});
+
+
+		await AR.start();
+
+		renderer.setAnimationLoop( () => {
+			renderer.render(scene, camera);
+		});
+	}
+	start();
 });
