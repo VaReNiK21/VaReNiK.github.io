@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		const loader = new GLTFLoader();
 
-		loader.load("3.glb", (gltf) => {
-			gltf.scene.scale.set(0.025, 0.025, 0.025);
+		loader.load("marker.glb", (gltf) => {
+			gltf.scene.scale.set(1, 1, 1);
 			gltf.scene.position.set(0, 0, -0.4);
 			anchor.group.add(gltf.scene);
 		});
