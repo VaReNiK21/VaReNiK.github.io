@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		const loader = new GLTFLoader();
 
 		loader.load("marker.glb", (gltf) => {
-			gltf.scene.scale.set(0.25, 0.25, 0.25);
+			gltf.scene.scale.set(0.20, 0.20, 0.20);
 			gltf.scene.position.set(0, 0, 0);
 			anchor.group.add(gltf.scene);
 		});
